@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import {
   Modal, FormLayout, TextField,
-  Select, Toast, Frame, Text, Stack,
+  Select, Toast, Frame, Text, HorizontalStack,
 } from "@shopify/polaris";
+import { HexColorPicker } from "react-colorful";
 import { useAuthenticatedFetch } from "../hooks/useAuthenticatedFetch";
 
 const DEFAULT_FORM = {
@@ -83,6 +84,7 @@ export default function TimerModal({ open, onClose, onSave, editTimer }) {
       >
         <Modal.Section>
           <FormLayout>
+
             <TextField
               label="Timer name *"
               value={form.title}
@@ -90,26 +92,49 @@ export default function TimerModal({ open, onClose, onSave, editTimer }) {
               placeholder="Enter timer name"
               autoComplete="off"
             />
-            <Stack direction="horizontal" gap="300">
+
+            <HorizontalStack gap="300">
               <div style={{ flex: 1 }}>
-                <TextField label="Start date" type="date" value={form.startDate}
-                  onChange={(v) => setForm({ ...form, startDate: v })} autoComplete="off" />
+                <TextField
+                  label="Start date"
+                  type="date"
+                  value={form.startDate}
+                  onChange={(v) => setForm({ ...form, startDate: v })}
+                  autoComplete="off"
+                />
               </div>
               <div style={{ flex: 1 }}>
-                <TextField label="Start time" type="time" value={form.startTime}
-                  onChange={(v) => setForm({ ...form, startTime: v })} autoComplete="off" />
+                <TextField
+                  label="Start time"
+                  type="time"
+                  value={form.startTime}
+                  onChange={(v) => setForm({ ...form, startTime: v })}
+                  autoComplete="off"
+                />
               </div>
-            </Stack>
-            <Stack direction="horizontal" gap="300">
+            </HorizontalStack>
+
+            <HorizontalStack gap="300">
               <div style={{ flex: 1 }}>
-                <TextField label="End date" type="date" value={form.endDate}
-                  onChange={(v) => setForm({ ...form, endDate: v })} autoComplete="off" />
+                <TextField
+                  label="End date"
+                  type="date"
+                  value={form.endDate}
+                  onChange={(v) => setForm({ ...form, endDate: v })}
+                  autoComplete="off"
+                />
               </div>
               <div style={{ flex: 1 }}>
-                <TextField label="End time" type="time" value={form.endTime}
-                  onChange={(v) => setForm({ ...form, endTime: v })} autoComplete="off" />
+                <TextField
+                  label="End time"
+                  type="time"
+                  value={form.endTime}
+                  onChange={(v) => setForm({ ...form, endTime: v })}
+                  autoComplete="off"
+                />
               </div>
-            </Stack>
+            </HorizontalStack>
+
             <TextField
               label="Promotion description"
               value={form.description}
@@ -118,16 +143,21 @@ export default function TimerModal({ open, onClose, onSave, editTimer }) {
               multiline={3}
               autoComplete="off"
             />
-            <Stack direction="vertical" gap="100">
-              <Text variant="bodyMd">Timer color</Text>
-              <input
-                type="color"
-                value={form.display.color}
-                onChange={(e) => setForm({ ...form, display: { ...form.display, color: e.target.value } })}
-                style={{ width: "60px", height: "40px", border: "none", cursor: "pointer", borderRadius: "4px" }}
-              />
-            </Stack>
-            <Stack direction="horizontal" gap="300">
+
+            <div style={{ marginBottom: "8px" }}>
+              <Text variant="bodyMd" as="p">Timer color</Text>
+              <div style={{ marginTop: "8px" }}>
+                <HexColorPicker
+                  color={form.display.color}
+                  onChange={(color) =>
+                    setForm({ ...form, display: { ...form.display, color } })
+                  }
+                  style={{ width: "100%" }}
+                />
+              </div>
+            </div>
+
+            <HorizontalStack gap="300">
               <div style={{ flex: 1 }}>
                 <Select
                   label="Timer size"
@@ -151,7 +181,8 @@ export default function TimerModal({ open, onClose, onSave, editTimer }) {
                   onChange={(v) => setForm({ ...form, display: { ...form.display, position: v } })}
                 />
               </div>
-            </Stack>
+            </HorizontalStack>
+
             <Select
               label="Urgency notification"
               options={[
@@ -162,6 +193,7 @@ export default function TimerModal({ open, onClose, onSave, editTimer }) {
               value={form.urgency.type}
               onChange={(v) => setForm({ ...form, urgency: { ...form.urgency, type: v } })}
             />
+
             {form.urgency.type !== "none" && (
               <TextField
                 label="Trigger urgency when X minutes remain"
@@ -171,6 +203,7 @@ export default function TimerModal({ open, onClose, onSave, editTimer }) {
                 autoComplete="off"
               />
             )}
+
           </FormLayout>
         </Modal.Section>
       </Modal>
